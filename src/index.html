@@ -1,17 +1,78 @@
 <!DOCTYPE html>
 <html lang="en">
-
 <head>
   <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <link rel="stylesheet" href="styles.css">
-  <title>Vanilla JavaScript App</title>
-</head>
+  <html>
+    <head>
+        <meta charset="UTF-8" />
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <script src="https://cdn.jsdelivr.net/npm/jquery@3.7.1/dist/jquery.min.js" integrity="sha256-/JqT3SQfawRcv/BIHPThkBvs0OEvtFFmqPF/lYI/Cxo=" crossorigin="anonymous"></script>
+        <link href="//cdn.datatables.net/1.13.6/css/jquery.dataTables.min.css" rel="stylesheet">
+        <script src="//cdn.datatables.net/1.13.6/js/jquery.dataTables.min.js"></script>
+    </head>
+    <body>
+        <h1>ISCA-UA ORCID Summary</h1>
+        <br>
+        <input id="RESTurl" type="text" value="https://restcountries.com/v3.1/all"><button onclick="populate($('#RESTurl').val())">Pesquisar</button>
+        <div id="table"></div>
+        <table id="myTable" class="display" width="100%">
+            <thead>
+                <tr>
+                    <th>name</th>
+                    <th>region</th>
+                    <th>independant</th>
+                </tr>
+            </thead>
+        </table>
+        <script>
+            function populate(RESTurl){
+                
+                new DataTable('#example', {
+                    ajax: {
+                        url: RESTurl,
+                        type: 'POST'
+                    },
+                    columns: [
+                        { data: 'name.common' },
+                        { data: 'region' },
+                        { data: 'independant' }
+                    ]
+                });
+            }
+               /* var table = $('#myTable').DataTable({
+                    "columns": [
+                        { "data": "name" },
+                        { "data": "region" },
+                        { "data": "currencies" }
+                    ]
+                });
+                $.ajax({
+                    url: 'https://restcountries.com/v3.1/all',
+                    dataType: 'json',
+                    success: function (json) {
+                        table.rows.add(json.results).draw();
+                    }
+                });
+            }
+            //$.get( "test.php", { name: "John", time: "2pm" } );
+            $.get("https://restcountries.com/v3.1/all", function(response) 
+            { 
+                new DataTable('#myTable', {
+                    columns: [
+                        { title: 'name' },
+                        { title: 'region' },
+                        { title: 'currencies' }
+                    ],
+                    data: response
+                });
+                console.log(response);
 
-<body>
-  <main>
-    <h1>Vanilla JavaScript App</h1>
-  </main>
-</body>
+            });*/
 
+            
+       
+        
+
+        </script>
+    </body>
 </html>
