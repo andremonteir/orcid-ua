@@ -13,7 +13,7 @@
     <body>
         <h1>ISCA-UA ORCID Summary</h1>
         <br>
-        <pre id="result">...</pre>
+        <pre id="result">...||</pre>
         <input type="text" id="token" placeholder="tokenid">
         <input type="text" id="search" placeholder="search items" value="demeranville">
         <button onclick="search($('#search').val())">Pesquisar</button>
@@ -34,7 +34,6 @@
             
             $.ajax({
                 headers: {
-                    Accept: "application/json",
                     'Content-Type': 'application/x-www-form-urlencoded',
                     'Access-Control-Allow-Origin': '*'
                 },
@@ -55,13 +54,12 @@
         function authorizeRequest(endpoint){
             $.ajax({
                 url:endpoint,
-                type:'POST',
+                type:'GET',
                 headers: {
                     'Content-Type': 'application/x-www-form-urlencoded',
                     'Access-Control-Allow-Origin': '*'
                 },
                 crossDomain: true
-                //contentType:'application/json; charset=utf-8'
                 })
                 .done(function(){			
                     console.log("id_token:" + signedInIdToken);
@@ -78,7 +76,7 @@
                     'Content-Type': 'application/x-www-form-urlencoded',
                     'Access-Control-Allow-Origin': '*'
                 },
-                type:'POST',
+                type:'GET',
                 crossDomain: true,
                 data: JSON.stringify({ "client_id": clientId, "client_secret": clientSecret, 
                                         "grant_type" : "authorization_code", "redirect_uri" : redirectUri,
