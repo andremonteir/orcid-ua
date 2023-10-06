@@ -54,9 +54,8 @@
         function tokenRequest(id_token){
 
             var params = { "client_id": clientId, "client_secret": clientSecret, 
-                            "grant_type" : "authorization_code", "redirect_uri" : redirectUri,
-                            "code": id_token  };
-            console.log(params);
+                            "grant_type" : "authorization_code", "code": id_token, "redirect_uri" : redirectUri};
+            
             $.ajax({
                 url:tokenEndpoint,
                 headers: {
