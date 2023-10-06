@@ -80,8 +80,8 @@
 
         function search(query){
             var token_id = authorizeRequest();
-            var token = tokenRequest(token_id);
-            console.log(token);
+            var token = $("#token").val().length > 1 ? $("#token").val() : tokenRequest(token_id);
+            
             var params = { "client_id": clientId, "response_type": "token", 
                              "scope" : "openid", "redirect_uri" : redirectUri };
             
@@ -121,20 +121,27 @@
             </thead>
         </table>
         <script>
+            $( document ).ready(function() {
+                const urlParams = new URLSearchParams(window.location.search);
+                if (urlParams.has('code'))
+                    $("#token").val(urlParams.get('code'));
+            });
+
             function populate(RESTurl){
                 
                 new DataTable('#example', {
                     ajax: {
                         url: RESTurl,
                         headers: {
-                            'Content-Type': 'application/x-www-form-urlencoded',
                             'Access-Control-Allow-Origin': '*',
                             'Access-Control-Allow-Methods': 'GET, POST',
                             'Access-Control-Allow-Headers': "Accept,authorization,Authorization, Content-Type"
                         },
                         type: 'POST',
+                        dataType: 'json',
                         success: function (json) {
                             table.rows.add(json.results).draw();
+                            console.log(json);
                         }
                     },
                     columns: [
