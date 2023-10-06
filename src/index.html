@@ -13,7 +13,7 @@
     <body>
         <h1>ISCA-UA ORCID Summary</h1>
         <br>
-        <pre id="result">...www</pre>
+        <pre id="result">...aaa</pre>
         <input type="text" id="token" placeholder="tokenid">
         <input type="text" id="search" placeholder="search items" value="demeranville">
         <button onclick="search($('#search').val())">Pesquisar</button>
@@ -33,7 +33,7 @@
                              "scope" : "/authenticate", "redirect_uri" : redirectUri };
             $.ajax({
                 url:authEndpoint,
-                type:'GET',
+                type:'POST',
                 data: $.param(params),
                 headers: {
                     'Content-Type': 'application/x-www-form-urlencoded',
@@ -65,7 +65,7 @@
                     'Access-Control-Allow-Headers': "Accept,authorization,Authorization, Content-Type",
                     'Accept': 'application/json'
                 },
-                type:'GET',
+                type:'POST',
                 crossDomain: true,
                 data: $.param(params),
                 contentType:'application/json; charset=utf-8'})
@@ -97,7 +97,7 @@
                 data: $.param(params),
                 url: "https://pub.orcid.org/v1.2/search/orcid-bio/?q="+ query,
                 done: function (data) {
-                    console.log(data);
+                    console.log("search:" + data);
                     $("#result").text("data!: " + data);
                 },
                 error: function (jqXHR, textStatus, errorThrown) {
