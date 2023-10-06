@@ -13,49 +13,19 @@
     <body>
         <h1>ISCA-UA ORCID Summary</h1>
         <br>
-        <pre id="result">...!!</pre>
+        <pre id="result">...==</pre>
         <input type="text" id="token" placeholder="tokenid">
         <input type="text" id="search" placeholder="search items" value="demeranville">
         <button onclick="search($('#search').val())">Pesquisar</button>
         
         <script>
 
-        const prodIssuer = "https://orcid.org";
         const prodUrl = "https://orcid.org/oauth/authorize";
-        const redirectUri = "https://wonderful-pebble-03a26b403.3.azurestaticapps.net";
+        const redirectUri = "https://wonderful-pebble-03a26b403.3.azurestaticapps.net/";
         const clientId = "APP-3CNS49SKAR5OGR9E"; 
         const clientSecret = "a37f23e3-b58f-4a99-9ea6-2820868f6610";
         const authEndpoint = "https://orcid.org/oauth/authorize?client_id=" + clientId + "&response_type=code&scope=/authenticate&redirect_uri="+redirectUri;
         const tokenEndpoint = "https://orcid.org/oauth/token";
-        
-        function search(query){
-            var token_id = authorizeRequest();
-            var token = tokenRequest(token_id);
-
-            var params = { "client_id": clientId, "response_type": "token", 
-                             "scope" : "openid", "redirect_uri" : redirectUri };
-            
-            $.ajax({
-                headers: {
-                    'Content-Type': 'application/x-www-form-urlencoded',
-                    'Access-Control-Allow-Origin': '*',
-                    'Access-Control-Allow-Methods': 'GET, POST',
-                    'Access-Control-Allow-Headers': "Accept,authorization,Authorization, Content-Type",
-                    'Accept': 'application/json',
-                    'Authorization': 'Bearer ' + token
-                },
-                type: "GET",
-                data: $.param(params),
-                url: "https://pub.orcid.org/v1.2/search/orcid-bio/?q="+ query,
-                done: function (data) {
-                    console.log(data);
-                    $("#result").text("data!: " + data);
-                },
-                error: function (jqXHR, textStatus, errorThrown) {
-                    $("#result").text("error: " + textStatus);
-                }
-            });
-        }
 
         function authorizeRequest(){
 
@@ -68,7 +38,7 @@
                 headers: {
                     'Content-Type': 'application/x-www-form-urlencoded',
                     'Access-Control-Allow-Origin': '*',
-                    'Access-Control-Allow-Methods': 'GET, POST',
+                    'Access-Control-Allow-Methods': 'GET, POST, OPTIONS',
                     'Access-Control-Allow-Headers': "Accept,authorization,Authorization, Content-Type"
                 },
                 crossDomain: true
@@ -92,7 +62,7 @@
                 headers: {
                     'Content-Type': 'application/x-www-form-urlencoded',
                     'Access-Control-Allow-Origin': '*',
-                    'Access-Control-Allow-Methods': 'GET, POST',
+                    'Access-Control-Allow-Methods': 'GET, POST, OPTIONS',
                     'Access-Control-Allow-Headers': "Accept,authorization,Authorization, Content-Type"
                 },
                 type:'GET',
@@ -105,6 +75,35 @@
                 }).fail(function(jqXHR, textStatus, errorThrown) {	
                     console.log("error");
                 });		
+        }
+
+        function search(query){
+            var token_id = authorizeRequest();
+            var token = tokenRequest(token_id);
+
+            var params = { "client_id": clientId, "response_type": "token", 
+                             "scope" : "openid", "redirect_uri" : redirectUri };
+            
+            $.ajax({
+                headers: {
+                    'Content-Type': 'application/x-www-form-urlencoded',
+                    'Access-Control-Allow-Origin': '*',
+                    'Access-Control-Allow-Methods': 'GET, POST, OPTIONS',
+                    'Access-Control-Allow-Headers': "Accept,authorization,Authorization, Content-Type",
+                    'Accept': 'application/json',
+                    'Authorization': 'Bearer ' + token
+                },
+                type: "GET",
+                data: $.param(params),
+                url: "https://pub.orcid.org/v1.2/search/orcid-bio/?q="+ query,
+                done: function (data) {
+                    console.log(data);
+                    $("#result").text("data!: " + data);
+                },
+                error: function (jqXHR, textStatus, errorThrown) {
+                    $("#result").text("error: " + textStatus);
+                }
+            });
         }
         
         </script>
