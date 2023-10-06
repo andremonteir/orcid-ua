@@ -56,14 +56,15 @@
             var params = { "client_id": clientId, "client_secret": clientSecret, 
                             "grant_type" : "authorization_code", "redirect_uri" : redirectUri,
                             "code": id_token  };
-
+            console.log(params);
             $.ajax({
                 url:tokenEndpoint,
                 headers: {
                     'Content-Type': 'application/x-www-form-urlencoded',
                     'Access-Control-Allow-Origin': '*',
                     'Access-Control-Allow-Methods': 'GET, POST, OPTIONS',
-                    'Access-Control-Allow-Headers': "Accept,authorization,Authorization, Content-Type"
+                    'Access-Control-Allow-Headers': "Accept,authorization,Authorization, Content-Type",
+                    'Accept': 'application/json'
                 },
                 type:'GET',
                 crossDomain: true,
@@ -80,7 +81,7 @@
         function search(query){
             var token_id = authorizeRequest();
             var token = tokenRequest(token_id);
-
+            console.log(token);
             var params = { "client_id": clientId, "response_type": "token", 
                              "scope" : "openid", "redirect_uri" : redirectUri };
             
@@ -91,7 +92,7 @@
                     'Access-Control-Allow-Methods': 'GET, POST, OPTIONS',
                     'Access-Control-Allow-Headers': "Accept,authorization,Authorization, Content-Type",
                     'Accept': 'application/json',
-                    'Authorization': 'Bearer ' + token
+                    'Authorization': 'Bearer ' + token.access_token
                 },
                 type: "GET",
                 data: $.param(params),
