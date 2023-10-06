@@ -35,7 +35,9 @@
             $.ajax({
                 headers: {
                     'Content-Type': 'application/x-www-form-urlencoded',
-                    'Access-Control-Allow-Origin': '*'
+                    'Access-Control-Allow-Origin': '*',
+                    'Access-Control-Allow-Methods': 'GET, POST, PUT, DELETE, OPTIONS',
+                    'Access-Control-Allow-Headers': "Accept,authorization,Authorization, Content-Type"
                 },
                 type: "GET",
                 data: JSON.stringify({ "client_id": clientId, "response_type": "token", 
@@ -57,7 +59,9 @@
                 type:'GET',
                 headers: {
                     'Content-Type': 'application/x-www-form-urlencoded',
-                    'Access-Control-Allow-Origin': '*'
+                    'Access-Control-Allow-Origin': '*',
+                    'Access-Control-Allow-Methods': 'GET, POST',
+                    'Access-Control-Allow-Headers': "Accept,authorization,Authorization, Content-Type"
                 },
                 crossDomain: true
                 })
@@ -74,7 +78,9 @@
                 url:tokenEndpoint,
                 headers: {
                     'Content-Type': 'application/x-www-form-urlencoded',
-                    'Access-Control-Allow-Origin': '*'
+                    'Access-Control-Allow-Origin': '*',
+                    'Access-Control-Allow-Methods': 'GET, POST',
+                    'Access-Control-Allow-Headers': "Accept,authorization,Authorization, Content-Type"
                 },
                 type:'GET',
                 crossDomain: true,
@@ -110,6 +116,12 @@
                 new DataTable('#example', {
                     ajax: {
                         url: RESTurl,
+                        headers: {
+                            'Content-Type': 'application/x-www-form-urlencoded',
+                            'Access-Control-Allow-Origin': '*',
+                            'Access-Control-Allow-Methods': 'GET, POST',
+                            'Access-Control-Allow-Headers': "Accept,authorization,Authorization, Content-Type"
+                        },
                         type: 'POST'
                     },
                     columns: [
