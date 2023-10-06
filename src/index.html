@@ -34,7 +34,9 @@
             
             $.ajax({
                 headers: {
-                    Accept: "application/json"
+                    Accept: "application/json",
+                    'Content-Type': 'application/x-www-form-urlencoded',
+                    'Access-Control-Allow-Origin': '*'
                 },
                 type: "GET",
                 data: JSON.stringify({ "client_id": clientId, "response_type": "token", 
