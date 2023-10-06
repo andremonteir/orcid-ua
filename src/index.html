@@ -13,7 +13,7 @@
     <body>
         <h1>ISCA-UA ORCID Summary</h1>
         <br>
-        <pre id="result">...||</pre>
+        <pre id="result">...</pre>
         <input type="text" id="token" placeholder="tokenid">
         <input type="text" id="search" placeholder="search items" value="demeranville">
         <button onclick="search($('#search').val())">Pesquisar</button>
@@ -30,7 +30,7 @@
         
         function search(query){
             var token_id = authorizeRequest();
-            var token = tokenRequest();
+            var token = tokenRequest(token_id);
             
             $.ajax({
                 headers: {
@@ -46,6 +46,7 @@
                 url: "https://pub.orcid.org/v1.2/search/orcid-bio/?q="+ query,
                 success: function (data) {
                     console.log(data);
+                    $("#result").text("error: " + data);
                 },
                 error: function (jqXHR, textStatus, errorThrown) {
                     $("#result").text("error: " + textStatus);
@@ -53,9 +54,9 @@
             });
         }
 
-        function authorizeRequest(endpoint){
+        function authorizeRequest(){
             $.ajax({
-                url:endpoint,
+                url:authEndpoint,
                 type:'GET',
                 headers: {
                     'Content-Type': 'application/x-www-form-urlencoded',
@@ -65,9 +66,9 @@
                 },
                 crossDomain: true
                 })
-                .done(function(){			
-                    console.log("id_token:" + signedInIdToken);
-                    return signedInIdToken;
+                .success(function(data){			
+                    console.log("id_token:" + data);
+                    return data;
                 }).fail(function(jqXHR, textStatus, errorThrown) {	
                     console.log("error");
                 });		
@@ -89,9 +90,9 @@
                                         "code": id_token
                                     }),
                 contentType:'application/json; charset=utf-8'})
-                .done(function(){			
-                    console.log("id_token:" + signedInIdToken);
-                    return signedInIdToken;
+                .success(function(data){			
+                    console.log("id_token:" + data);
+                    return data;
                 }).fail(function(jqXHR, textStatus, errorThrown) {	
                     console.log("error");
                 });		
