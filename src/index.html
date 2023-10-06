@@ -79,8 +79,8 @@
         }
 
         function search(query){
-            var token_id = authorizeRequest();
-            var token = $("#token").val().length > 1 ? $("#token").val() : tokenRequest(token_id);
+            var token_id = $("#token").val().length > 1 ? $("#token").val() : authorizeRequest();
+            var token = tokenRequest(token_id);
             
             var params = { "client_id": clientId, "response_type": "token", 
                              "scope" : "openid", "redirect_uri" : redirectUri };
