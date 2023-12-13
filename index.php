@@ -10,38 +10,50 @@
 </head>
 
 <body>
-    <form>
+    
     <div class="container">
+    
     <div class="mb-3 row">
         <label for="search" class="form-label">Search&nbsp;</label>
         <div class="col-sm-10">
             <input class="form-control" type="text" value="affiliation-org-name:(%22Universidade%20de%20Aveiro%20instituto%22)" name="search" id="search">
-            <button  class="btn btn-primary mb-3" onclick="getISCAUAIds();">Pesquisar IDs</button>
+            <button  class="btn btn-primary mt-3" onclick="getISCAUAIds();">Pesquisar IDs</button>
         </div>
     </div>
+    
     <div class="mb-3 row">
         <label for="access_token1" class="form-label">Token&nbsp;</label>
         <div class="col-sm-10">
             <input type="text" class="form-control" value="<?php isset($_REQUEST["access_token"]) ? $_REQUEST["access_token"] : "" ?>" name="access_token1" id="access_token1">
-            <button class="btn btn-primary mb-3" onclick="authorizeRequest();">Get token</button>
+            <button class="btn btn-primary mt-3" onclick="authorizeRequest();">Get token</button>
         </div>
     </div>
+    <form>
     <div class="mb-3 row">
         <input type="hidden" value="" name="access_token" id="access_token"><br>
         <input type="hidden" value="" name="refresh_token" id="refresh_token"><br>
         <label for="orcidid" class="form-label">ORCID&nbsp;</label>
         <div class="col-sm-10">
             <input type="text" value="0000-0003-0779-9145" name="orcidid" id="orcidid" class="form-control">
-            <input type="submit" value="Get info" class="btn btn-primary mb-3">
+            <input type="submit" value="Get info" class="btn btn-primary mt-3">
         </div>
 
         <ul></ul>
     </div>
+    </form>
+    <button class="btn btn-success mt-3" onclick="getORCIDInfo2();">Get info</button>
+
     <div class="mb-3 row" id="results">
     
         <?php
 
-        if(isset( $_REQUEST["access_token"]) && isset( $_REQUEST["orcidid"])){
+        $validData = false;
+        
+        if (isset( $_REQUEST["access_token"]) && isset( $_REQUEST["orcidid"]))
+            if($_REQUEST["access_token"] != "" && $_REQUEST["orcidid"] != "")
+                $validData = true;
+
+        if($validData){
             $access_token = $_REQUEST["access_token"];
             $orcidid = $_REQUEST["orcidid"];
             $clientId = "APP-3CNS49SKAR5OGR9E"; 
@@ -52,17 +64,26 @@
             curl_setopt($curl, CURLOPT_URL, $url);
             curl_setopt($curl, CURLOPT_RETURNTRANSFER, true);
 
-            $headers = [
+            $headers1 = [
                 "Content-Type" => "application/orcid+json",
                 "Access-Control-Allow-Origin" => "*",
-                "Bearer" => $access_token,
+                "Authorization" => "Bearer " . $access_token,
                 "Access-Control-Allow-Methods" => "POST, GET, OPTIONS, DELETE, PUT",
                 "Access-Control-Allow-Headers" => "append,delete,entries,foreach,get,has,keys,set,values,Authorization"
             ];
-            
-            curl_setopt($curl, CURLOPT_POST, 0);                //0 for a get request
+
+            $headers = array(
+                "Content-Type: application/orcid+json",
+                "Access-Control-Allow-Origin: *",
+                "Authorization: Bearer $access_token",
+                "Access-Control-Allow-Methods: POST, GET, OPTIONS, DELETE, PUT",
+                "Access-Control-Allow-Headers: append,delete,entries,foreach,get,has,keys,set,values,Authorization"
+            );
+            //print_r($headers);
+            curl_setopt($curl, CURLOPT_POST, 1);                //0 for a get request
             curl_setopt($curl, CURLOPT_HTTPHEADER, $headers);
             curl_setopt($curl, CURLOPT_HEADER, true);
+            curl_setopt($curl, CURLINFO_HEADER_OUT, true);
         // curl_setopt($curl, CURLOPT_POSTFIELDS, http_build_query($postfields, PHP_QUERY_RFC1738));
 
             $response = curl_exec($curl);
@@ -70,7 +91,7 @@
             echo $response . "<hr>";
         }
         ?>
-    </form>
+
     </div> <!-- results -->
     </div>
 
@@ -90,6 +111,7 @@
 
         if ($("#access_token").val().length < 1) {
             $.ajax({
+                    //headers: { "Access-Control-Allow-Origin": "*" },
                     url: "https://orcid.org/oauth/token",
                     type: 'POST',
                     dataType: "json",
@@ -109,10 +131,12 @@
     }
 
     function getISCAUAIds() {
+        var query = document.getElementById("search").value;
 
         $.ajax({
             type: "GET",
-            url: "https://pub.orcid.org/v3.0/search/?q=affiliation-org-name:(%22Universidade%20de%20Aveiro%20instituto%22)",
+            url: "https://pub.orcid.org/v3.0/search/?q="+query, //affiliation-org-name:(%22Universidade%20de%20Aveiro%20instituto%22)
+            //url: "https://pub.orcid.org/v3.0/search/?q=affiliation-org-name:(%22Universidade%20de%20Aveiro%20instituto%22)
             dataType: "json",
 
             error: function(e) {
@@ -136,21 +160,25 @@
         });
     }
 
-    function getORCIDInfo2(orcidid) {
+    function getORCIDInfo2() {
+        var orcidid = $("#orcidid").val();
+        var token = $("#access_token").val();
 
         $.ajax({
             headers: {
                 "Access-Control-Allow-Origin": "*",
-                'Accept': 'text/html,application/xhtml+xml,application/xml;q=0.9,image/avif,image/webp,image/apng,*/*',
-                'Cache-Control': 'no-cache',
-                'Sec-Fetch-Mode': 'navigate'
+                "Access-Control-Allow-Credentials": "true",
+                "Access-Control-Allow-Methods": "GET,HEAD,OPTIONS,POST,PUT",
+                "Access-Control-Allow-Headers": "Origin, X-Requested-With, Content-Type, Accept, Authorization",
+                //'Accept': 'text/html,application/xhtml+xml,application/xml;q=0.9,image/avif,image/webp,image/apng,*/*',
+                //'Cache-Control': 'no-cache',
+                'Content-Type': 'application/orcid+json',
+                'Authorization' : 'Bearer ' + token
             },
             type: "GET",
-            url: "https://pub.orcid.org/v3.0/" + orcidid,
-            data: $.param({
-                "orcidid": orcidid
-            }),
-            dataType: "json",
+            url: "https://pub.orcid.org/v3.0/" + orcidid + "/record",
+           
+            //dataType: "json",
 
             error: function(e) {
                 //alert("An error occurred while processing data");
@@ -186,7 +214,7 @@
         var orcid = "'" + orcidid + "'";
         //orcid = "0000-0002-1976-6538";
         var params = {
-            "Bearer": $("#access_token").val()
+            "Bearer": access_token
         };
 
         $.ajax({
@@ -197,7 +225,7 @@
             headers: {
                 "Access-Control-Allow-Origin": "*",
                 "Accept": "application/vnd.orcid+xml ",
-                "Bearer": access_token
+                "Authorization": "Bearer " + access_token
                 //"Access-Control-Allow-Methods": "POST, GET, OPTIONS, DELETE, PUT",
                 //"Access-Control-Allow-Headers": "append,delete,entries,foreach,get,has,keys,set,values,Authorization"
             },
