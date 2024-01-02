@@ -1,7 +1,7 @@
 // ANdré Monteiro ORCID API keys
 const clientId = "APP-3CNS49SKAR5OGR9E";
 const clientSecret = "a37f23e3-b58f-4a99-9ea6-2820868f6610";
-
+const websiteURL = "https://orcid-ua.azurewebsites.net";
 
 function getList() {
     var query = document.getElementById("search").value;
@@ -267,7 +267,7 @@ function authorizeRequest() {
           data: $.param(params),
           headers: {
             "Access-Control-Allow-Origin": "*",
-            "Access-Control-Allow-Origin": "http://localhost:8080",
+            "Access-Control-Allow-Origin": websiteURL,
             "Access-Control-Allow-Headers": "Origin, X-Requested-With, Content-Type, Accept"
         },
           crossDomain: true
