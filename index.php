@@ -29,41 +29,33 @@
     <br><br>
     <div class="container">
         <div class="mb-3 row">
-            <div class="col-sm-2">
-                <label for="access_token1" class="form-label">Access token&nbsp;</label>
-            </div>
-            <div class="col-sm-7">
+            <div class="col-auto input-group ">
+                <span class="input-group-text">Access token</span>
                 <input type="text" class="form-control"
                     value="<?php if (isset($_REQUEST["access_token"])) echo $_REQUEST["access_token"]; else echo "" ?>"
-                    name="access_token1" id="access_token1" placeholder="token from orcid">
-            </div>
-            <div class="col-auto">
+                    name="access_token1" id="access_token1" placeholder="Token for ORCID API">
                  <button class="btn btn-primary" onclick="authorizeRequest();">Get new token</button>
             </div>
-        </div><hr>
-        <div class="mb-3 row">
-            <img class="mt-3" id="info" width="50px" src="spinner-3.gif" style="display:none">
-        </div>
-            <div class="mb-3 row">
-                <div class="col-sm-2">
-                    <label for="search" class="form-label">Search ORCID params&nbsp;</label>
-                </div>
-                <div class="col-sm-7">
+        </div><hr><br>
+        <div class="mb-3 row ">
+            <div class="col-auto input-group w-75">
+                    <span class="input-group-text">Search params</span>
                     <input class="form-control" type="text" value='<?php echo $searchString ?>' name="search" id="search">
-                </div>
-                <div class="col-auto">
+            </div>
+            <div class="col-3">
                     <button class="btn btn-primary" onclick="getList()" >Search ORCIDS</button>
                     <button class="btn btn-success" onclick="sendAllToAPI();">Get Search List</button>
-                </div>
             </div>
+        </div>
         <div class="mb-3 row">
-            <div class="col-sm-2">
-                <label for="search" class="form-label">Import CSV</label>
+            <div class="col mt-3 text-center"> <b>OR</b></div>
+        </div>
+        <div class="mb-3 row ">
+            <div class="col-auto input-group w-75">
+                <span class="input-group-text">Import CSV</span>
+                <input class="form-control  input-sm" type="file" id="csvFileInput" accept=".csv" name="csvFileInput" width="820px" >
             </div>
-            <div class="col-sm-7">
-                <input class="form-control" type="file" id="csvFileInput" accept=".csv" name="csvFileInput" >
-            </div>
-            <div class="col-auto">
+            <div class="col-3">
                 <button class="btn btn-primary" onclick="importCSV()" >Import ORCIDS</button>
                 <button class="btn btn-success" onclick="sendAllCSVToAPI()">Get CSV List</button>
             </div>

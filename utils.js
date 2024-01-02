@@ -1,4 +1,4 @@
-// ANdré Monteiro ORCID API keys
+// André Monteiro ORCID API keys
 const clientId = "APP-3CNS49SKAR5OGR9E";
 const clientSecret = "a37f23e3-b58f-4a99-9ea6-2820868f6610";
 const websiteURL = "https://orcid-ua.azurewebsites.net";
@@ -47,7 +47,7 @@ function importCSV() {
 }
 
 function sendAllCSVToAPI() {
-    // Use the orcidData array to send all 'orcid' values to your API
+    $('#myDataTable').hide();
 
     var access_token = "";
     var search = orcidData;
@@ -146,6 +146,7 @@ function sendAllCSVToAPI() {
 }
 
 function sendAllToAPI() {
+    $('#myDataTable').hide();
     var access_token = "";
     var search = 'affiliation-org-name:(%22Universidade%20de%20Aveiro%20instituto%20Superior%22)+OR+current-institution-affiliation-name:(%22Institute%20of%20Higher%20Learning%20in%20Accounting%20and%20Administration%22)';
 
@@ -265,11 +266,6 @@ function authorizeRequest() {
           type: 'POST',
           dataType: "json",
           data: $.param(params),
-          headers: {
-            "Access-Control-Allow-Origin": "*",
-            "Access-Control-Allow-Origin": websiteURL,
-            "Access-Control-Allow-Headers": "Origin, X-Requested-With, Content-Type, Accept"
-        },
           crossDomain: true
         })
         .done(function(data) {
@@ -362,7 +358,6 @@ function getORCIDInfo(orcidid) {
 
 
     var orcid = "'" + orcidid + "'";
-    //orcid = "0000-0002-1976-6538";
     var params = {
         "Bearer": access_token
     };
@@ -376,12 +371,7 @@ function getORCIDInfo(orcidid) {
             "Access-Control-Allow-Origin": "*",
             "Accept": "application/vnd.orcid+xml ",
             "Authorization": "Bearer " + access_token
-            //"Access-Control-Allow-Methods": "POST, GET, OPTIONS, DELETE, PUT",
-            //"Access-Control-Allow-Headers": "append,delete,entries,foreach,get,has,keys,set,values,Authorization"
         },
-        // crossDomain: true,
-        //data: $.param(params),
-        // dataType: "json",
 
         error: function (e) {
             alert("An error occurred while processing data");

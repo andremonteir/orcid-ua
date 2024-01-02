@@ -1,3 +1,4 @@
+<?php include "credentials.php"; ?> 
 <?php
 
 if(isset($_REQUEST["access_token"])){
@@ -120,7 +121,8 @@ function getPeopleInfo($access_token, $search)
                     array_push($list, $row);
                     
                 }
-            if($i==4) // just a few record do test
+            global $searchLimit;
+            if($i==$searchLimit ) // just a few record do test
                     break;
         }
         return $list;

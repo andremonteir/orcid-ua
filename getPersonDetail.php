@@ -40,16 +40,22 @@ function getPersonDetail($access_token, $orcidid)
     {
         $rowsDetail = array();
         $data = getOneInfo($access_token, $orcidid);
-
         $works = count($data["group"]);
+        $previousTitle = "";
 
         if ($works>0)
         {
             foreach ($data["group"] as $value) {
                 
+                $title = $value["work-summary"][0]["title"]["title"]["value"];
+
+                if (strcmp($title, $previousTitle)==0){
+                    continue;
+                }
+                $previousTitle = $title;
+
                 $url = isset($value["work-summary"][0]["url"]) ?  $value["work-summary"][0]["url"]["value"] : "";
                 $year = isset($value["work-summary"][0]["publication-date"]["year"]) ? $value["work-summary"][0]["publication-date"]["year"]["value"] : "";
-                $title = $value["work-summary"][0]["title"]["title"]["value"];
                 $journal = isset($value["work-summary"][0]["journal-title"]) ? $value["work-summary"][0]["journal-title"]["value"]: "";
                 $rowDetail = array("year" => $year, "title" => $title, "url" => $url, "journal" => $journal );
 
