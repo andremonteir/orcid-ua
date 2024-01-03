@@ -49,7 +49,7 @@ function importCSV() {
 function sendAllCSVToAPI() {
     $('#myDataTable').hide();
 
-    var access_token = "3e1f5d34-3d06-4b1e-a01e-7a25e1595e72";
+    var access_token = "64510798-332e-44c2-aa5a-41f20105272f";
     var search = orcidData;
 
     if ($("#access_token1").val().length < 1)
@@ -151,7 +151,7 @@ function sendAllCSVToAPI() {
 
 function sendAllToAPI() {
     $('#myDataTable').hide();
-    var access_token = "";
+    var access_token = "64510798-332e-44c2-aa5a-41f20105272f";
     var search = 'affiliation-org-name:(%22Universidade%20de%20Aveiro%20instituto%20Superior%22)+OR+current-institution-affiliation-name:(%22Institute%20of%20Higher%20Learning%20in%20Accounting%20and%20Administration%22)';
 
     if ($("#access_token1").val().length < 1)
@@ -291,9 +291,9 @@ function authorizeRequest() {
       });
     } else {
       $("#access_token1").val($("#access_token").val());
-      console.log($("#access_token").val());
+      console.log($("#access_token1").val());
       // Return a resolved promise with the existing access token
-      return Promise.resolve($("#access_token").val());
+      return Promise.resolve($("#access_token1").val());
     }
   }
 
