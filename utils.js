@@ -1,7 +1,7 @@
 // André Monteiro ORCID API keys
 const clientId = "APP-3CNS49SKAR5OGR9E";
 const clientSecret = "a37f23e3-b58f-4a99-9ea6-2820868f6610";
-const websiteURL = "https://orcid-ua.azurewebsites.net";
+const clientURL = "https://orcid-php.azurewebsites.net/";
 
 function getList() {
     var query = document.getElementById("search").value;
@@ -263,7 +263,8 @@ function authorizeRequest() {
       "client_id": clientId,
       "client_secret": clientSecret,
       "grant_type": "client_credentials",
-      "scope": "/read-public"
+      "scope": "/read-public",
+      "redirect_uri": clientURL
     };
   
     if ($("#access_token1").val().length < 1) {
