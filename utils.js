@@ -49,7 +49,7 @@ function importCSV() {
 function sendAllCSVToAPI() {
     $('#myDataTable').hide();
 
-    var access_token = "";
+    var access_token = "3e1f5d34-3d06-4b1e-a01e-7a25e1595e72";
     var search = orcidData;
 
     if ($("#access_token1").val().length < 1)
@@ -81,6 +81,10 @@ function sendAllCSVToAPI() {
         ],
         order: [
             [1, 'asc']
+        ],
+        dom: 'Bfrtip',
+        buttons: [
+            'pdf', 'excel'
         ],
         rowId: 'orcid',
         drawCallback: function (settings) {
@@ -179,6 +183,10 @@ function sendAllToAPI() {
             { data: 'organization' },
             { data: 'orcid' },
             { data: 'work_count' }
+        ],
+        dom: 'Bfrtip',
+        buttons: [
+            'pdf', 'excel'
         ],
         order: [
             [1, 'asc']

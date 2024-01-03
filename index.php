@@ -13,6 +13,7 @@
     </script>
     <link href="//cdn.datatables.net/1.13.7/css/jquery.dataTables.min.css" rel="stylesheet">
     <script type="text/javascript" src="//cdn.datatables.net/1.13.7/js/jquery.dataTables.min.js"></script>
+    <script type="text/javascript" src="https://cdn.datatables.net/buttons/1.3.1/js/dataTables.buttons.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/PapaParse/5.3.0/papaparse.min.js"></script>
     <script type="text/javascript" src="utils.js"></script>
     <style>
@@ -77,6 +78,13 @@
                 columns: [
                 { data: 'name' },
                 { data: 'orcid' }
+                ],
+                dom: 'Bfrtip',
+                buttons: [
+                    'pdf', 'excel'
+                ],
+                order: [
+                    [1, 'asc']
                 ],
                 deferRender: true
             });
